@@ -13,6 +13,10 @@
 #include "MWTree.h"
 #include "FunctionTree.h"
 #include "project.h"
+#include "Gaussian.h"
+#include "RepresentableFunction.h"
+#include "GaussFunc.h"
+
 
 using namespace mrcpp;
 namespace py = pybind11;
@@ -26,7 +30,7 @@ py::class_<InterpolatingBasis> (m, "InterpolatingBasis", scalingbasis)
     .def(py::init<int>());
 
 py::class_<BoundingBox<3>> (m, "BoundingBox")
-    .def(py::init<int, py::array_t<int>, py::array_t <int>>())
+    .def(py::init<int, py::array_t<const int>, py::array_t <const int>>())
     .def("getScale", &BoundingBox<3>::getScale);
 
 
@@ -42,6 +46,9 @@ py::class_<MWTree<3>> mwtree(m, "MWTree");
 py::class_<FunctionTree<3>> (m, "FunctionTree")
     .def(py::init<const MultiResolutionAnalysis<3>>());
 
-    m.def("project", &project<3>);
+
+py::class_<GaussFunc<3>>(m, "GaussFunc")
+    .def(py::init<double, double, py::array_t <double>, py::array_t <double>>())
+    .def("evalf", py::overload_cast<py::array_t <double>>(&GaussFunc<3>::evalf));
 
 }
