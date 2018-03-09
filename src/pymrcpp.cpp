@@ -12,6 +12,8 @@
 #include "MultiResolutionAnalysis.h"
 #include "MWTree.h"
 #include "FunctionTree.h"
+#include "project.h"
+
 using namespace mrcpp;
 namespace py = pybind11;
 
@@ -39,4 +41,7 @@ py::class_<MWTree<3>> mwtree(m, "MWTree");
 
 py::class_<FunctionTree<3>> (m, "FunctionTree")
     .def(py::init<const MultiResolutionAnalysis<3>>());
+
+    m.def("project", &project<3>);
+
 }
