@@ -27,6 +27,36 @@ Gaussian<D> *GaussFunc<D>::copy() const{
 }
 
 template<int D>
+double GaussFunc<D>::evalf( py::array_t <double> rInp) {
+
+    auto bufr = rInp.request();
+
+    double *r = (double *) bufr.ptr;
+
+    if (this->getScreen()) {
+        for (int d = 0; d < D; d++) {
+            if (r[d] < this->A[d] or r[d] > this->B[d]) {
+                return 0.0;
+            }
+        }
+    }
+    double q2 = 0.0, p2 = 1.0;
+    for (int d = 0; d < D; d++) {
+        double q = r[d] - this->pos[d];
+        q2 += q * q;
+        if (this->power[d] == 0) {
+            continue;
+        } else if (this->power[d] == 1) {
+            p2 *= q;
+        } else {
+            p2 *= pow(q, this->power[d]);
+        }
+    }
+    return this->coef * p2 * exp(-this->alpha * q2);
+}
+
+
+template<int D>
 double GaussFunc<D>::evalf(const double *r) const {
     if (this->getScreen()) {
         for (int d = 0; d < D; d++) {
