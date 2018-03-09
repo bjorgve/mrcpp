@@ -15,6 +15,7 @@ namespace mrcpp {
 template<int D>
 class BoundingBox {
 public:
+    BoundingBox(int, py::array_t<const int>, py::array_t <const int>);
     BoundingBox(int n = 0, const int *l = 0, const int *nb = 0);
     BoundingBox(const NodeIndex<D> &idx, const int *nb = 0);
     BoundingBox(const BoundingBox<D> &box);
