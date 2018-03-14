@@ -40,6 +40,14 @@ void mrcpp::project(double prec,
     Printer::printSeparator(10, ' ');
 }
 
+void mrcpp::project3D(double prec,
+                    FunctionTree<3> &out,
+                    std::function<double (double x, double y, double z)> func,
+                    int maxIter) {
+    AnalyticFunction3D inp(func);
+    mrcpp::project(prec, out, inp, maxIter);
+}
+
 template void mrcpp::project(double prec, FunctionTree<1> &out, RepresentableFunction<1> &inp, int maxIter);
 template void mrcpp::project(double prec, FunctionTree<2> &out, RepresentableFunction<2> &inp, int maxIter);
 template void mrcpp::project(double prec, FunctionTree<3> &out, RepresentableFunction<3> &inp, int maxIter);
