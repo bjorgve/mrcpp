@@ -40,4 +40,18 @@ protected:
     std::function<double (double x, double y, double z)> func;
 };
 
+class AnalyticFunction2D : public RepresentableFunction<2> {
+public:
+    AnalyticFunction2D(std::function<double (double x, double y)> f)
+            : func(f) { }
+
+    virtual double evalf(const double *r) const {
+        double val = 0.0;
+        if (not this->outOfBounds(r)) val = this->func(r[0], r[1]);
+        return val;
+    }
+protected:
+    std::function<double (double x, double y)> func;
+};
+
 }
