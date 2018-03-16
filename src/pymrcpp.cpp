@@ -29,14 +29,14 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(pymrcpp, m) {
 
-
+//MWFunctions
 py::class_<FunctionTreeVector<3>> (m, "FunctionTreeVector")
     .def(py::init<>())
     .def("size", &FunctionTreeVector<3>::size)
     .def("push_back", py::overload_cast<double, FunctionTree<3> *>(&FunctionTreeVector<3>::push_back))
     .def("push_back", py::overload_cast<FunctionTree<3> *>(&FunctionTreeVector<3>::push_back));
 
-    py::class_<ScalingBasis> scalingbasis(m, "ScalingBasis");
+py::class_<ScalingBasis> scalingbasis(m, "ScalingBasis");
     scalingbasis.def(py::init<int, int>());
 
 py::class_<InterpolatingBasis> (m, "InterpolatingBasis", scalingbasis)
@@ -68,15 +68,14 @@ py::class_<RepresentableFunction<3>, PyRepresentableFunction<3>> repfunc(m, "Rep
     .def(py::init<>())
     .def("evalf", &RepresentableFunction<3>::evalf);
 
+    m.def("add", py::overload_cast<double, FunctionTree<3> &, double , FunctionTree<3> &, double, FunctionTree<3> &, int>(&add<3>));
+    m.def("project", py::overload_cast<double, FunctionTree<3> &, RepresentableFunction<3> &, int>(&project<3>));
+    m.def("project3D", py::overload_cast<double, FunctionTree<3> &, std::function<double (double, double, double)>, int>(&project3D));
+
+//Gaussians
 py::class_<Gaussian<3>> gaussian(m, "Gaussian", repfunc);
 
 py::class_<GaussFunc<3>>(m, "GaussFunc", gaussian)
     .def(py::init<double, double, py::array_t <double>, py::array_t <double>>())
     .def("evalf", py::overload_cast<py::array_t <double>>(&GaussFunc<3>::evalf));
-
-
-
-    m.def("add", py::overload_cast<double, FunctionTree<3> &, double , FunctionTree<3> &, double, FunctionTree<3> &, int>(&add<3>));
-    m.def("project", py::overload_cast<double, FunctionTree<3> &, RepresentableFunction<3> &, int>(&project<3>));
-    m.def("project3D", py::overload_cast<double, FunctionTree<3> &, std::function<double (double, double, double)>, int>(&project3D));
 }
