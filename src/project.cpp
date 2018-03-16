@@ -56,6 +56,14 @@ void mrcpp::project2D(double prec,
     mrcpp::project(prec, out, inp, maxIter);
 }
 
+void mrcpp::project1D(double prec,
+                      FunctionTree<1> &out,
+                      std::function<double (double x)> func,
+                      int maxIter) {
+    AnalyticFunction1D inp(func);
+    mrcpp::project(prec, out, inp, maxIter);
+}
+
 template void mrcpp::project(double prec, FunctionTree<1> &out, RepresentableFunction<1> &inp, int maxIter);
 template void mrcpp::project(double prec, FunctionTree<2> &out, RepresentableFunction<2> &inp, int maxIter);
 template void mrcpp::project(double prec, FunctionTree<3> &out, RepresentableFunction<3> &inp, int maxIter);

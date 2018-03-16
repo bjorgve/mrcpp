@@ -54,4 +54,18 @@ protected:
     std::function<double (double x, double y)> func;
 };
 
+class AnalyticFunction1D : public RepresentableFunction<1> {
+public:
+    AnalyticFunction1D(std::function<double (double x)> f)
+            : func(f) { }
+
+    virtual double evalf(const double *r) const {
+        double val = 0.0;
+        if (not this->outOfBounds(r)) val = this->func(r[0]);
+        return val;
+    }
+protected:
+    std::function<double (double x)> func;
+};
+
 }
