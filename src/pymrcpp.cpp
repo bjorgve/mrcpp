@@ -24,10 +24,13 @@ PYBIND11_MODULE(pymrcpp, m) {
     pyProject1D(m);
     pyProject2D(m);
     pyProject3D(m);
+
     pyFundamentalTypes<1>(m);
     pyFundamentalTypes<2>(m);
     pyFundamentalTypes<3>(m);
+
     pyBases(m);
+
     pyMethods<1>(m);
     pyMethods<2>(m);
     pyMethods<3>(m);

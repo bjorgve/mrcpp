@@ -51,6 +51,7 @@ void pyMethods(py::module &m) {
 
     m.def("apply", py::overload_cast<double, FunctionTree<D> &, ConvolutionOperator<D> &, FunctionTree<D> &, int>(&apply<D>));
     m.def("apply", py::overload_cast<FunctionTree<D> &, DerivativeOperator<D> &, FunctionTree<D> &, int>(&apply<D>));
+
     m.def("dot", &dot<D>);
 }
 
