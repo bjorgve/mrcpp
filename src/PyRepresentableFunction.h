@@ -1,7 +1,9 @@
-//
-// Created by magnar on 16.03.18.
-//
-
+/*
+ *  \date Mar 16, 2018
+ *  \author Magnar Bjørgve <magnar.bjorgve@uit.no> \n
+ *          Hylleraas Centre for Quantum Molecular Sciences \n
+ *          UiT - The Arctic University of Norway
+ */
 #pragma once
 #include "pybind11/include/pybind11/pybind11.h"
 #include "RepresentableFunction.h"
