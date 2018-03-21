@@ -21,7 +21,6 @@
 #include "ABGVOperator.h"
 #include "PoissonOperator.h"
 #include "ConvolutionOperator.h"
-#include "MWOperator.h"
 
 using namespace mrcpp;
 namespace py = pybind11;
@@ -77,23 +76,6 @@ void init_pymrcpp(py::module &m) {
         repfunc
         .def(py::init<>())
         .def("evalf", &RepresentableFunction<D>::evalf);
-
-
-    std::stringstream ABGVOperatorName;
-    ABGVOperatorName << "ABGVOperator" << D << "D";
-    py::class_ <ABGVOperator<D>> (m, ABGVOperatorName.str().data())
-        .def(py::init< MultiResolutionAnalysis<D> &, double, double >());
-
-    std::stringstream ConvOperatorName;
-    ConvOperatorName << "ConvolutionOperator" << D << "D";
-    py::class_ <ConvolutionOperator<D>> convop(m, ConvOperatorName.str().data());
-        convop
-        .def(py::init<MultiResolutionAnalysis<D> &, double>());
-
-   if (D==3){
-   py::class_ <PoissonOperator> (m, "PoissonOperator", convop)
-       .def(py::init<const MultiResolutionAnalysis<3> &, double >());
-   }
 
 //Gaussians
 
