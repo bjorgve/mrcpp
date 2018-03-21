@@ -19,7 +19,7 @@ namespace py = pybind11;
 
 
 template<int D>
-void init_pyOperators(py::module &m) {
+void pyOperators(py::module &m) {
 
     std::stringstream ABGVOperatorName;
     ABGVOperatorName << "ABGVOperator" << D << "D";
@@ -40,7 +40,7 @@ void init_pyOperators(py::module &m) {
 
 }
 
-template void init_pyOperators<1>(py::module &m);
-template void init_pyOperators<2>(py::module &m);
-template void init_pyOperators<3>(py::module &m);
+template void pyOperators<1>(py::module &m);
+template void pyOperators<2>(py::module &m);
+template void pyOperators<3>(py::module &m);
 

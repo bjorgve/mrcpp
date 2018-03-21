@@ -15,7 +15,7 @@ using namespace mrcpp;
 namespace py = pybind11;
 
 
-void init_pymrcppClasses(py::module &m) {
+void pyBases(py::module &m) {
 
 
 py::class_<ScalingBasis> scalingbasis(m, "ScalingBasis");

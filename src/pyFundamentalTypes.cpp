@@ -24,7 +24,7 @@ namespace py = pybind11;
 
 
 template<int D>
-void init_pymrcpp(py::module &m) {
+void pyFundamentalTypes(py::module &m) {
 
 //MWFunctions
 
@@ -92,6 +92,6 @@ void init_pymrcpp(py::module &m) {
         .def("calcCoulombEnergy", &GaussFunc<D>::calcCoulombEnergy);
 }
 
-template void init_pymrcpp<1>(py::module &m);
-template void init_pymrcpp<2>(py::module &m);
-template void init_pymrcpp<3>(py::module &m);
+template void pyFundamentalTypes<1>(py::module &m);
+template void pyFundamentalTypes<2>(py::module &m);
+template void pyFundamentalTypes<3>(py::module &m);

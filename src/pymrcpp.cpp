@@ -10,30 +10,30 @@
 
 namespace py = pybind11;
 
-template <int D> void init_pymrcpp(py::module &);
-void init_pymrcppClasses(py::module &);
-template<int D> void init_pymethods(py::module &);
-void init_pyProject1D(py::module &);
-void init_pyProject2D(py::module &);
-void init_pyProject3D(py::module &);
+template <int D> void pyFundamentalTypes(py::module &);
+void pyBases(py::module &);
+template<int D> void pyMethods(py::module &);
+void pyProject1D(py::module &);
+void pyProject2D(py::module &);
+void pyProject3D(py::module &);
 
-template<int D> void init_pyOperators(py::module &);
+template<int D> void pyOperators(py::module &);
 
 PYBIND11_MODULE(pymrcpp, m) {
 
-    init_pyProject1D(m);
-    init_pyProject2D(m);
-    init_pyProject3D(m);
-    init_pymrcpp<1>(m);
-    init_pymrcpp<2>(m);
-    init_pymrcpp<3>(m);
-    init_pymrcppClasses(m);
-    init_pymethods<1>(m);
-    init_pymethods<2>(m);
-    init_pymethods<3>(m);
+    pyProject1D(m);
+    pyProject2D(m);
+    pyProject3D(m);
+    pyFundamentalTypes<1>(m);
+    pyFundamentalTypes<2>(m);
+    pyFundamentalTypes<3>(m);
+    pyBases(m);
+    pyMethods<1>(m);
+    pyMethods<2>(m);
+    pyMethods<3>(m);
 
-    init_pyOperators<1>(m);
-    init_pyOperators<2>(m);
-    init_pyOperators<3>(m);
+    pyOperators<1>(m);
+    pyOperators<2>(m);
+    pyOperators<3>(m);
 
 }

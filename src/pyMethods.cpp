@@ -21,20 +21,20 @@
 namespace py = pybind11;
 using namespace mrcpp;
 
-void init_pyProject1D(py::module &m) {
+void pyProject1D(py::module &m) {
     m.def("project", py::overload_cast<double, FunctionTree<1> &, std::function<double (double)>, int>(&project1D));
 }
 
-void init_pyProject2D(py::module &m) {
+void pyProject2D(py::module &m) {
     m.def("project", py::overload_cast<double, FunctionTree<2> &, std::function<double (double, double)>, int>(&project2D));
 }
 
-void init_pyProject3D(py::module &m) {
+void pyProject3D(py::module &m) {
     m.def("project", py::overload_cast<double, FunctionTree<3> &, std::function<double (double, double, double)>, int>(&project3D));
 }
 
 template <int D>
-void init_pymethods(py::module &m) {
+void pyMethods(py::module &m) {
 
 
     m.def("add", py::overload_cast<double, FunctionTree<D> &, double , FunctionTree<D> &, double, FunctionTree<D> &, int>(&add<D>));
@@ -54,6 +54,6 @@ void init_pymethods(py::module &m) {
     m.def("dot", &dot<D>);
 }
 
-template void init_pymethods<1>(py::module &m);
-template void init_pymethods<2>(py::module &m);
-template void init_pymethods<3>(py::module &m);
+template void pyMethods<1>(py::module &m);
+template void pyMethods<2>(py::module &m);
+template void pyMethods<3>(py::module &m);
