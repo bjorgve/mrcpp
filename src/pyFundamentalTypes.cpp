@@ -18,9 +18,6 @@
 #include "PyRepresentableFunction.h" // Trampoline Class for Representable Function
 #include "GaussFunc.h"
 #include "FunctionTreeVector.h"
-#include "ABGVOperator.h"
-#include "PoissonOperator.h"
-#include "ConvolutionOperator.h"
 
 using namespace mrcpp;
 namespace py = pybind11;
@@ -45,6 +42,7 @@ void init_pymrcpp(py::module &m) {
     py::class_<BoundingBox<D>> (m, boundBoxName.str().data())
         .def(py::init<int, py::array_t<const int>, py::array_t <const int>>())
         .def(py::init<int, int *,  int *>()) //1D cases can be initialized without array type input
+        .def(py::init<bool>()) //For periodic cases
         .def("getScale", &BoundingBox<D>::getScale);
 
     std::stringstream multResAnaName;
@@ -68,7 +66,10 @@ void init_pymrcpp(py::module &m) {
         .def(py::init<const MultiResolutionAnalysis<D>>())
         .def("integrate", &FunctionTree<D>::integrate)
         .def("clear", &FunctionTree<D>::clear)
-        .def("normalize", &FunctionTree<D>::normalize);
+        .def("normalize", &FunctionTree<D>::normalize)
+        .def("evalf", py::overload_cast<double>(&FunctionTree<D>::evalf))
+        .def("evalf", py::overload_cast<double, double>(&FunctionTree<D>::evalf))
+        .def("evalf", py::overload_cast<double, double, double>(&FunctionTree<D>::evalf));
 
     std::stringstream repFuncName;
     repFuncName << "RepresentableFunction" << D << "D";
