@@ -10,6 +10,7 @@
 
 #include "ABGVOperator.h"
 #include "PoissonOperator.h"
+#include "HelmholtzOperator.h"
 #include "ConvolutionOperator.h"
 
 #include "MultiResolutionAnalysis.h"
@@ -23,19 +24,21 @@ void pyOperators(py::module &m) {
 
     std::stringstream ABGVOperatorName;
     ABGVOperatorName << "ABGVOperator" << D << "D";
-    py::class_ <ABGVOperator<D>> (m, ABGVOperatorName.str().data())
+    py::class_<ABGVOperator<D>> (m, ABGVOperatorName.str().data())
         .def(py::init< MultiResolutionAnalysis<D> &, double, double >());
 
 
     std::stringstream ConvOperatorName;
     ConvOperatorName << "ConvolutionOperator" << D << "D";
-    py::class_ <ConvolutionOperator<D>> convop(m, ConvOperatorName.str().data());
+    py::class_<ConvolutionOperator<D>> convop(m, ConvOperatorName.str().data());
     convop
         .def(py::init<MultiResolutionAnalysis<D> &, double>());
 
     if (D==3){
-        py::class_ <PoissonOperator> (m, "PoissonOperator", convop)
+        py::class_<PoissonOperator> (m, "PoissonOperator", convop)
             .def(py::init<const MultiResolutionAnalysis<3> &, double >());
+        py::class_<HelmholtzOperator> (m, "HelmholtzOperator", convop)
+            .def(py::init<MultiResolutionAnalysis<3> &, double, double>());
     }
 
 }
