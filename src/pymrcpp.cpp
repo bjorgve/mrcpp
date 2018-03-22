@@ -11,6 +11,7 @@
 namespace py = pybind11;
 
 template <int D> void pyFundamentalTypes(py::module &);
+template <int D> void pyGauss(py::module &);
 void pyBases(py::module &);
 template<int D> void pyMethods(py::module &);
 void pyProject1D(py::module &);
@@ -38,5 +39,9 @@ PYBIND11_MODULE(pymrcpp, m) {
     pyOperators<1>(m);
     pyOperators<2>(m);
     pyOperators<3>(m);
+
+    pyGauss<1>(m);
+    pyGauss<2>(m);
+    pyGauss<3>(m);
 
 }
