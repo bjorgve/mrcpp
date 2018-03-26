@@ -20,8 +20,9 @@ namespace py = pybind11;
 
 template<int D>
 BoundingBox<D>::BoundingBox(int n, py::array_t<const int> l, py::array_t<const int> nb)
-        :periodic(false){
 
+
+    : BoundingBox<D>() {
 
     auto bufl = l.request();
     auto bufnb = nb.request();
