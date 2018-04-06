@@ -16,6 +16,7 @@
 using namespace std;
 using namespace mrcpp;
 
+/*
 namespace py = pybind11;
 
 template<int D>
@@ -37,6 +38,7 @@ BoundingBox<D>::BoundingBox(int n, py::array_t<const int> l, py::array_t<const i
     setNBoxes(nbPtr);
     setDerivedParameters();
 }
+*/
 
 template<int D>
 BoundingBox<D>::BoundingBox(int n, const int *l, const int *nb)

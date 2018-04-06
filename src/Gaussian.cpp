@@ -10,14 +10,15 @@
 #include"Gaussian.h"
 #include "NodeIndex.h"
 
-#include <pybind11/pybind11.h>
-#include <pybind11/numpy.h>
+//#include <pybind11/pybind11.h>
+//#include <pybind11/numpy.h>
 
-namespace py = pybind11;
+//namespace py = pybind11;
 using namespace std;
 using namespace Eigen;
 using namespace mrcpp;
 
+/*
 template<int D>
 Gaussian<D>::Gaussian(double a, double c, py::array_t <double> r, py::array_t <int> p) {
 
@@ -44,7 +45,7 @@ Gaussian<D>::Gaussian(double a, double c, py::array_t <double> r, py::array_t <i
     }
     this->squareNorm = -1.0;
 }
-
+*/
 
 template<int D>
 Gaussian<D>::Gaussian(double a, double c, const double r[D], const int p[D]) {
