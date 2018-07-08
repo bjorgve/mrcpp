@@ -161,6 +161,25 @@ double FunctionTree<D>::evalf(const double *r) {
     return result;
 }
 
+
+template<int D>
+double FunctionTree<D>::evalf(double x) {
+    double r[1] = {x};
+    return this->evalf(r);
+}
+
+template<int D>
+double FunctionTree<D>::evalf(double x, double y) {
+    double r[2] = {x, y};
+    return this->evalf(r);
+}
+
+template<int D>
+double FunctionTree<D>::evalf(double x, double y, double z) {
+    double r[3] = {x, y, z};
+    return this->evalf(r);
+}
+
 /** @brief In-place square of function
  *
  * The leaf node point values of the output function will be in-place
