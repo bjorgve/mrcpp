@@ -51,9 +51,9 @@ PYBIND11_MODULE(vampyr3d, m) {
 
     // FunctonTreeVector related start
     py::class_<FunctionTreeVector<3>> (m, "FunctionTreeVector")
-        .def(py::init<>())
-        .def("size", &FunctionTreeVector<3>::size);
-
+      .def(py::init<>())
+      .def("size", &FunctionTreeVector<3>::size);
+      
     m.def("push_back", &py_push_back<3>);
 
     m.def("get_coef", &get_coef<3>);
@@ -133,6 +133,12 @@ PYBIND11_MODULE(vampyr3d, m) {
 
     m.def("dot", py::overload_cast<FunctionTree<3>&, FunctionTree<3>&>(&dot<3>),
         py::arg("bra"), py::arg("ket"));
+
+    m.def("dot", py::overload_cast<double, FunctionTree<3>&, FunctionTreeVector<3>&, FunctionTreeVector<3>&, int>(&dot<3>),
+        py::arg("precision"), py::arg("output_tree"), py::arg("input_vector_a"), py::arg("input_vector_b"), py::arg("maxIter") = -1);
+
+    m.def("gradient", py::overload_cast<DerivativeOperator<3>&, FunctionTree<3>&>(&gradient<3>),
+        py::arg("DerivativeOperator"), py::arg("FunctionTree"), "gives FunctionTreeVector containing partial differentials for a 3D FunctionTree");
 
     py::class_<DerivativeOperator<3>> deriv(m, "Derivative Operator");
     deriv
