@@ -135,13 +135,13 @@ PYBIND11_MODULE(vampyr3d, m) {
         py::arg("bra"), py::arg("ket"));
 
     m.def("dot", py::overload_cast<double, FunctionTree<3>&, FunctionTreeVector<3>&, FunctionTreeVector<3>&, int>(&dot<3>),
-        py::arg("precision"), py::arg("output_tree"), py::arg("input_vector_a"), py::arg("input_vector_b"), py::arg("maxIter") = -1);
+        py::arg("precision"), py::arg("output_tree"), py::arg("input_vector_a"), py::arg("input_vector_b"), py::arg("maxIter") = -1, "takes in two FunctonTreeVector and outputs a FunctonTree containing the dot product of said vectors");
 
     m.def("gradient", py::overload_cast<DerivativeOperator<3>&, FunctionTree<3>&>(&gradient<3>),
-        py::arg("DerivativeOperator"), py::arg("FunctionTreeVector"), "gives FunctionTreeVector containing partial differentials for a 3D FunctionTree");
+        py::arg("DerivativeOperator"), py::arg("FunctionTreeVector"), "gives FunctionTreeVector containing partial differentials for a FunctionTree");
 
     m.def("divergence", py::overload_cast<FunctionTree<3>&, DerivativeOperator<3>&, FunctionTreeVector<3>&>(&divergence<3>),
-        py::arg("FunctionTree_out"), py::arg("DerivativeOperator"), py::arg("FunctonTreeVector_inp"), "takes in a FunctionTreeVector and ouputs a FunctionTree");
+        py::arg("FunctionTree_out"), py::arg("DerivativeOperator"), py::arg("FunctonTreeVector_inp"), "takes in a FunctionTreeVector and ouputs a FunctionTree containing the divergence of said vector");
     py::class_<DerivativeOperator<3>> deriv(m, "Derivative Operator");
     deriv
         .def(py::init<MultiResolutionAnalysis<3>>());

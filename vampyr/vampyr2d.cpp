@@ -24,6 +24,7 @@
 #include "operators/DerivativeOperator.h"
 #include "operators/ABGVOperator.h"
 #include "operators/ConvolutionOperator.h"
+
 #include "treebuilders/add.h"
 #include "treebuilders/multiply.h"
 #include "treebuilders/apply.h"
@@ -112,6 +113,15 @@ PYBIND11_MODULE(vampyr2d, m) {
 
     m.def("dot", py::overload_cast<FunctionTree<2>&, FunctionTree<2>&>(&dot<2>),
         py::arg("bra"), py::arg("ket"));
+
+    m.def("dot", py::overload_cast<double, FunctionTree<2>&, FunctionTreeVector<2>&, FunctionTreeVector<2>&, int>(&dot<2>),
+        py::arg("precision"), py::arg("output_tree"), py::arg("input_vector_a"), py::arg("input_vector_b"), py::arg("maxIter") = -1, "takes in two FunctonTreeVector and outputs a FunctonTree containing the dot product of said vectors");
+
+    m.def("gradient", py::overload_cast<DerivativeOperator<2>&, FunctionTree<2>&>(&gradient<2>),
+        py::arg("DerivativeOperator"), py::arg("FunctionTreeVector"), "gives FunctionTreeVector containing partial differentials for a FunctionTree");
+
+    m.def("divergence", py::overload_cast<FunctionTree<2>&, DerivativeOperator<2>&, FunctionTreeVector<2>&>(&divergence<2>),
+        py::arg("FunctionTree_out"), py::arg("DerivativeOperator"), py::arg("FunctonTreeVector_inp"), "takes in a FunctionTreeVector and ouputs a FunctionTree containing the divergence of said vector");
 
     py::class_<DerivativeOperator<2>> deriv(m, "Derivative Operator");
     deriv

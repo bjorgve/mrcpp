@@ -117,3 +117,18 @@ def test_multiply_vec():
     vp.multiply(prec/10, mult_vec_tree, multiply_vec)
     assert isclose(mult_vec_tree.evalf(0, 0, 0),
                    phi_exact(0, 0, 0)**2, rel_tol=prec)
+
+
+def test_divergence_gradient():
+    F_tree = vp.FunctionTree(MRA)
+    df_tree = vp.FunctionTree(MRA)
+
+    def F(x, y, z):
+        return (x**4) + (y**4) + (z**4)
+
+    vp.project(prec, F_tree, F)
+
+    f_vector = vp.gradient(D, F_tree)
+    vp.divergence(df_tree, D, f_vector)
+
+    assert isclose(df_tree.evalf(1, 0, 0), 12, abs_tol=prec)
