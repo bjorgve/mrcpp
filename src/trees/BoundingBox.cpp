@@ -15,24 +15,16 @@
 namespace mrcpp {
 
 template<int D>
-BoundingBox<D>::BoundingBox(int n, const int *l, const int *nb)
-        : cornerIndex(n, l) {
-    setNBoxes(nb);
-    setDerivedParameters();
-    if (scalingFactor == std::array<double, D>{}) scalingFactor.fill(1.0);
-}
-
-template<int D>
 BoundingBox<D>::BoundingBox(int n, const std::array<int, D> &l, const std::array<int, D> &nb, const std::array<double, D> &sf)
         : cornerIndex(n, l.data()) {
-    setNBoxes(nb.data());
+    setNBoxes(nb);
     setDerivedParameters();
     setScalingFactor(sf);
     if (scalingFactor == std::array<double, D>{}) scalingFactor.fill(1.0);
 }
 
 template<int D>
-BoundingBox<D>::BoundingBox(const NodeIndex<D> &idx, const int *nb)
+BoundingBox<D>::BoundingBox(const NodeIndex<D> &idx, const std::array<int, D> &nb, const std::array<double, D> &sf)
         : cornerIndex(idx) {
     setNBoxes(nb);
     setDerivedParameters();
@@ -58,22 +50,17 @@ BoundingBox<D> &BoundingBox<D>::operator=(const BoundingBox<D> &box) {
 }
 
 template<int D>
-void BoundingBox<D>::setNBoxes(const int *nb) {
-    this->nBoxes[D] = 1;
+void BoundingBox<D>::setNBoxes(const std::array<int, D> &nb) {
+    this->totBoxes = 1;
     for (int d = 0; d < D; d++) {
-        if (nb == nullptr) {
-            this->nBoxes[d] = 1;
-        } else {
-            if (nb[d] <= 0) MSG_ERROR("Invalid box size");
-            this->nBoxes[d] = nb[d];
-            this->nBoxes[D] *= this->nBoxes[d];
-        }
+        this->nBoxes[d] = (nb[d] > 0) ? nb[d] : 1;
+        this->totBoxes *= this->nBoxes[d];
     }
 }
 
 template<int D>
 void BoundingBox<D>::setDerivedParameters() {
-    assert(this->nBoxes[D] > 0);
+    assert(this->totBoxes > 0);
     int scale = this->cornerIndex.getScale();
     const int *l = this->cornerIndex.getTranslation();
     this->unitLength = std::pow(2.0, -scale);
@@ -87,7 +74,7 @@ void BoundingBox<D>::setDerivedParameters() {
 
 template<int D>
 void BoundingBox<D>::setScalingFactor(const std::array<double, D> &sf) {
-    assert(this->nBoxes[D] > 0);
+    assert(this->totBoxes > 0);
     this->scalingFactor = sf;
 }
 
@@ -119,7 +106,7 @@ NodeIndex<D> BoundingBox<D>::getNodeIndex(const Coord<D> &r) const {
 // Specialized for D=1 below
 template<int D>
 NodeIndex<D> BoundingBox<D>::getNodeIndex(int bIdx) const {
-    assert(bIdx >= 0 and bIdx <= nBoxes[D]);
+    assert(bIdx >= 0 and bIdx <= this->totBoxes);
     int l[D];
     for (int d = D - 1; d >= 0; d--) {
         int ncells = 1;
