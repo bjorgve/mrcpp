@@ -58,7 +58,7 @@ public:
 
     double calcSquareNorm();
 
-    double evalf(const Coord<D> &r) const;
+    double evalfCore(const Coord<D> &r) const;
     double evalf(double r, int dim) const;
 
     double calcOverlap(GaussFunc<D> &b);
@@ -88,6 +88,8 @@ public:
                            std::vector<int *> &power,
                            std::array<int, D> &pow,
                            int dir) const;
+
+    using Gaussian<D>::evalf;
 
 private:
     Polynomial *poly[D];
