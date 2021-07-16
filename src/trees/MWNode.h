@@ -117,6 +117,7 @@ public:
 
     double getNodeNorm(const NodeIndex<D> &idx) const;
 
+    bool hasParent() const { return (parent != nullptr) ? true : false; }
     bool hasCoefs() const { return (this->status & FlagHasCoefs); }
     bool isEndNode() const { return (this->status & FlagEndNode); }
     bool isGenNode() const { return (this->status & FlagGenNode); }

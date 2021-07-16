@@ -31,6 +31,7 @@
 #include "trees/OperatorNode.h"
 #include "utils/Printer.h"
 #include "utils/Timer.h"
+#include "utils/math_utils.h"
 #include "utils/periodic_utils.h"
 #include "utils/tree_utils.h"
 
@@ -374,30 +375,27 @@ template <int D> void ConvolutionCalculator<D>::tensorApplyOperComp(OperatorStat
 #endif
 }
 
-template <int D> MWNodeVector<D> *ConvolutionCalculator<D>::getInitialWorkVector(MWTree<D> &tree) const {
-    auto *nodeVec = new MWNodeVector<D>;
-    tree_utils::make_node_table(tree, *nodeVec);
-    // tree.makeNodeTable(*nodeVec);
-    //
+template <int D> void ConvolutionCalculator<D>::touchParentNodes(MWTree<D> &tree) const {
     if (not manipulateOperator) {
         const auto oper_scale = tree.getMRA().getOperatorScale();
+        auto car_prod = math_utils::cartesian_product({-1, 0}, D);
         for (auto i = -1; i > oper_scale - 1; i--) {
-            std::array<int, D> l;
-            for (int x = -1; x < 1; x++) {
-                l[0] = x;
-                for (int y = -1; y < 1; y++) {
-                    l[1] = y;
-                    for (int z = -1; z < 1; z++) {
-                        l[2] = z;
-                        NodeIndex<D> idx(i, l);
-                        nodeVec->push_back(&tree.getNode(idx));
-                        this->fTree->getNode(idx); // Generate necessary parents in input
-                    }
-                }
+            for (auto &a : car_prod) {
+                std::array<int, D> l;
+                std::copy_n(a.begin(), D, l.begin());
+                NodeIndex<D> idx(i, l);
+                tree.getNode(idx);
+                this->fTree->getNode(idx);
             }
         }
     }
+}
 
+template <int D> MWNodeVector<D> *ConvolutionCalculator<D>::getInitialWorkVector(MWTree<D> &tree) const {
+    auto *nodeVec = new MWNodeVector<D>;
+    touchParentNodes(tree);
+    // auto &root = tree.getNode(0);
+    tree_utils::make_node_table(tree, *nodeVec);
     return nodeVec;
 }
 

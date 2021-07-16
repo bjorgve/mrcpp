@@ -40,9 +40,7 @@ public:
 
     MWNodeVector<D> *getInitialWorkVector(MWTree<D> &tree) const override;
 
-    void setPrecFunction(const std::function<double(const NodeIndex<D> &idx)> &prec_func) {
-        this->precFunc = prec_func;
-    }
+    void setPrecFunction(const std::function<double(const NodeIndex<D> &idx)> &prec_func) { this->precFunc = prec_func; }
     void startManipulateOperator(bool excUnit) {
         this->manipulateOperator = true;
         this->onUnitcell = excUnit;
@@ -67,11 +65,7 @@ private:
     static const int nComp2 = (1 << D) * (1 << D);
 
     MWNodeVector<D> *makeOperBand(const MWNode<D> &gNode, std::vector<NodeIndex<D>> &idx_band);
-    void fillOperBand(MWNodeVector<D> *band,
-                      std::vector<NodeIndex<D>> &idx_band,
-                      NodeIndex<D> &idx,
-                      const int *nbox,
-                      int dim);
+    void fillOperBand(MWNodeVector<D> *band, std::vector<NodeIndex<D>> &idx_band, NodeIndex<D> &idx, const int *nbox, int dim);
 
     void initTimers();
     void clearTimers();
@@ -95,6 +89,8 @@ private:
     void applyOperComp(OperatorState<D> &os);
     void applyOperator(OperatorState<D> &os);
     void tensorApplyOperComp(OperatorState<D> &os);
+
+    void touchParentNodes(MWTree<D> &tree) const;
 };
 
 } // namespace mrcpp
