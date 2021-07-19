@@ -121,7 +121,7 @@ TEST_CASE("Helmholtz' kernel", "[init_helmholtz], [helmholtz_operator], [mw_oper
                     }
                 }
                 O.calcBandWidths(band_prec);
-                REQUIRE(O.getMaxBandWidth(3) == 7);
+                REQUIRE(O.getMaxBandWidth(3) == 3);
                 REQUIRE(O.getMaxBandWidth(7) == 5);
                 REQUIRE(O.getMaxBandWidth(13) == 9);
                 REQUIRE(O.getMaxBandWidth(20) == -1);
@@ -218,10 +218,7 @@ TEST_CASE("Apply Periodic Helmholtz' operator", "[apply_periodic_helmholtz], [he
     HelmholtzOperator H(MRA, mu, build_prec);
 
     // Source, Poisson applied to this should yield cos(x)cos(y)cos(z)
-    auto source = [mu](const mrcpp::Coord<3> &r) {
-        return 3.0 * cos(r[0]) * cos(r[1]) * cos(r[2]) / (4.0 * pi) +
-               mu * mu * cos(r[0]) * cos(r[1]) * cos(r[2]) / (4.0 * pi);
-    };
+    auto source = [mu](const mrcpp::Coord<3> &r) { return 3.0 * cos(r[0]) * cos(r[1]) * cos(r[2]) / (4.0 * pi) + mu * mu * cos(r[0]) * cos(r[1]) * cos(r[2]) / (4.0 * pi); };
 
     FunctionTree<3> source_tree(MRA);
     project<3>(proj_prec, source_tree, source);
